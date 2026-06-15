@@ -1,0 +1,21 @@
+name: QA Tests - 83fb4738
+on:
+  push:
+    paths:
+      - 'qa-tests/83fb4738-2945-4d05-a25f-25b091e4077e/**'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install playwright pytest pytest-playwright pytest-timeout
+          playwright install chromium
+      - name: Run QA tests
+        run: pytest qa-tests/83fb4738-2945-4d05-a25f-25b091e4077e/test_83fb4738_api.py -v --browser=chromium --timeout=90
