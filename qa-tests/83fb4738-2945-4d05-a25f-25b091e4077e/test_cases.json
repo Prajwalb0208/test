@@ -1,0 +1,901 @@
+[
+  {
+    "id": "3437cb30-9dfb-4009-8c50-584e36f36738",
+    "title": "Logout while using mobile device",
+    "description": "Verify that a user can log out from their account on a mobile device.",
+    "preconditions": [
+      "User is logged in to the application via mobile device."
+    ],
+    "steps": [
+      "Click on the logout button on the mobile app.",
+      "Observe if the user is redirected to the login page."
+    ],
+    "expected_result": "The user should be logged out and redirected to the login page.",
+    "category": "Mobile",
+    "priority": "Low",
+    "tags": [
+      "logout",
+      "mobile"
+    ],
+    "created_at": "2026-06-12T12:39:23.859026",
+    "requirement": "one quick logout test",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": null,
+    "username": null,
+    "password": null,
+    "test_type": "web"
+  },
+  {
+    "id": "29c71246-ca76-48b8-9051-31ad6951431e",
+    "title": "Logout with invalid credentials",
+    "description": "Verify that a user cannot log out if they enter incorrect logout credentials.",
+    "preconditions": [
+      "User is logged in to the application."
+    ],
+    "steps": [
+      "Enter incorrect credentials during the logout process.",
+      "Click on the logout button.",
+      "Observe if the user remains logged in."
+    ],
+    "expected_result": "The user should remain logged in and not be redirected to the login page.",
+    "category": "Authentication",
+    "priority": "Medium",
+    "tags": [
+      "logout",
+      "invalid"
+    ],
+    "created_at": "2026-06-12T12:39:23.858456",
+    "requirement": "one quick logout test",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": null,
+    "username": null,
+    "password": null,
+    "test_type": "web"
+  },
+  {
+    "id": "b99a6d59-b393-4cf9-b1c1-dbb70ee5c780",
+    "title": "Logout with valid credentials",
+    "description": "Verify that a user can log out successfully using their valid login credentials.",
+    "preconditions": [
+      "User is logged in to the application."
+    ],
+    "steps": [
+      "Click on the logout button.",
+      "Observe if the user is redirected to the login page."
+    ],
+    "expected_result": "The user is logged out and redirected to the login page.",
+    "category": "Authentication",
+    "priority": "High",
+    "tags": [
+      "logout",
+      "valid"
+    ],
+    "created_at": "2026-06-12T12:39:23.856623",
+    "requirement": "one quick logout test",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": null,
+    "username": null,
+    "password": null,
+    "test_type": "web"
+  },
+  {
+    "id": "a38ece72-a519-4a4e-9f79-90a1faed6adb",
+    "title": "Execute concurrent tenant creation and verify final state integrity",
+    "description": "Tests the functional outcome of creating 20 tenants simultaneously, ensuring all records are created correctly without data corruption or failure.",
+    "preconditions": [
+      "The application is running at http://localhost:8080.",
+      "User 'superdev@techcanopy.com' has superuser privileges."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using 'http://localhost:8080/login'.",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com' and fill the password field with 'SuperDev@123'.",
+      "Step 3: Click the Login button.",
+      "Step 4: Navigate to 'http://localhost:8080/dev'.",
+      "Step 5: Initiate a process that concurrently triggers the creation of 20 new tenants (simulating parallel clicks on 'provision new tenant').",
+      "Step 6: Wait for all 20 provisioning tasks to complete.",
+      "Step 7: Navigate to the Tenant Management list and assert that exactly 21 total tenants exist (the initial one + 20 new ones).",
+      "Step 8: Select a newly created tenant and verify its status is 'Active' and all required fields are populated correctly."
+    ],
+    "expected_result": "The system successfully provisions 20 unique, active tenants, and the final count of tenants matches the expected number (N+20), confirming data integrity under concurrent load.",
+    "category": "concurrency",
+    "priority": "high",
+    "tags": [
+      "race condition",
+      "data validation",
+      "bulk operation"
+    ],
+    "created_at": "2026-06-12T09:41:33.237878",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "affcb7c7-da0f-4119-a6e4-6357f0162e08",
+    "title": "Verify system stability and CPU load during mass tenant provisioning",
+    "description": "Validates that the application remains stable and performs within acceptable resource limits while 20 tenants are created concurrently by superdev.",
+    "preconditions": [
+      "The application is running at http://localhost:8080.",
+      "No existing tenants are provisioned."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using 'http://localhost:8080/login'.",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com' and click into the password field.",
+      "Step 3: Fill the password field with 'SuperDev@123' and click the Login button.",
+      "Step 4: Assert successful login redirection to the main dashboard or /dev page.",
+      "Step 5: Navigate to 'http://localhost:8080/dev'.",
+      "Step 6: Execute a script or API call simulating 20 concurrent requests to provision new tenants (e.g., using parallel execution framework).",
+      "Step 7: Monitor the system's CPU usage and application logs throughout the provisioning process.",
+      "Step 8: Assert that the overall CPU utilization remains below X% threshold (e.g., 80%) during the entire operation."
+    ],
+    "expected_result": "All 20 tenants are successfully created, and the system's resource usage (CPU) remains within acceptable operational limits, indicating no race conditions or deadlocks.",
+    "category": "concurrency",
+    "priority": "high",
+    "tags": [
+      "load testing",
+      "stress test",
+      "superdev",
+      "tenancy"
+    ],
+    "created_at": "2026-06-12T09:41:33.236555",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "98c1dfb2-bd35-45f8-b103-5e7551aa86ae",
+    "title": "Verify successful creation and listing of multiple tenants via the development portal",
+    "description": "Validates the end-to-end flow for creating a batch of new tenants, ensuring that each tenant is correctly provisioned and visible in the system list.",
+    "preconditions": [
+      "The application is running at http://localhost:8080.",
+      "User credentials for 'superdev@techcanopy.com' are valid."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using the URL http://localhost:8080/login.",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com'.",
+      "Step 3: Fill the password field with 'SuperDev@123'.",
+      "Step 4: Click the Login button to authenticate as superdev.",
+      "Step 5: Navigate to the development environment by clicking the link/button leading to http://localhost:8080/dev.",
+      "Step 6: Click the 'Provision New Tenant' button.",
+      "Step 7: Initiate the creation of a batch of 20 tenants (e.g., via API call or rapid UI interaction).",
+      "Step 8: Wait for the provisioning process to complete and assert that a success message is displayed.",
+      "Step 9: Navigate to the main tenant list view and assert that exactly 20 new, unique tenants are visible and correctly listed."
+    ],
+    "expected_result": "The system should confirm successful creation of all 20 tenants, and upon navigating to the tenant listing page, all 20 newly created tenants must be present and accessible.",
+    "category": "ux_flow",
+    "priority": "high",
+    "tags": [
+      "tenant management",
+      "creation flow",
+      "superdev",
+      "pagination"
+    ],
+    "created_at": "2026-06-12T09:40:49.535890",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "4d9c169b-fedd-4161-9665-70ea20074090",
+    "title": "Verify system stability and performance when provisioning 20 tenants simultaneously",
+    "description": "Validates that the application remains stable, responsive, and does not crash or exhibit excessive resource usage (CPU spike) while rapidly creating a large batch of new tenants.",
+    "preconditions": [
+      "The application is running at http://localhost:8080.",
+      "User credentials for 'superdev@techcanopy.com' are valid."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using the URL http://localhost:8080/login.",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com'.",
+      "Step 3: Fill the password field with 'SuperDev@123'.",
+      "Step 4: Click the Login button to authenticate as superdev.",
+      "Step 5: Click the link or button leading to the development environment (e.g., clicking on a link that navigates to http://localhost:8080/dev).",
+      "Step 6: Locate and click the 'Provision New Tenant' button.",
+      "Step 7: Execute a script or loop action to rapidly trigger the creation of 20 new tenants using the provided interface (e.g., clicking the provision button 20 times with minimal delay).",
+      "Step 8: Monitor system metrics (CPU usage, memory) and assert that they remain within acceptable operational thresholds throughout the entire provisioning process.",
+      "Step 9: Assert that all 20 tenants are successfully listed in the tenant management view."
+    ],
+    "expected_result": "The application should successfully create and list all 20 tenants without crashing, displaying a stable CPU usage pattern (no sustained critical spikes), and providing confirmation messages for each successful creation.",
+    "category": "ux_flow",
+    "priority": "high",
+    "tags": [
+      "load testing",
+      "performance",
+      "tenant management",
+      "superdev"
+    ],
+    "created_at": "2026-06-12T09:40:49.534449",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "78bd337c-b8e9-4e2a-aef5-e40377331664",
+    "title": "Verify system stability and resource cleanup after high-load tenant creation",
+    "description": "Ensures that the application returns to a stable, normal operational state (resource leak check) immediately following the completion of 20 simultaneous tenant creations.",
+    "preconditions": [
+      "The application is running at http://localhost:8080.",
+      "User 'superdev@techcanopy.com' credentials are valid."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using the URL http://localhost:8080/login.",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com'.",
+      "Step 3: Fill the password field with 'SuperDev@123'.",
+      "Step 4: Click the login button to authenticate as superdev.",
+      "Step 5: Navigate to the tenant provisioning page (http://localhost:8080/dev).",
+      "Step 6: Execute the mass creation of 20 tenants, monitoring system resources until completion.",
+      "Step 7: Wait for a defined cool-down period (e.g., 5 minutes) and attempt to perform a simple, unrelated action (e.g., viewing dashboard stats or creating one more tenant).",
+      "Step 8: Monitor CPU usage and memory consumption during the idle/post-load period."
+    ],
+    "expected_result": "After completing the high-load task, the system resources (CPU, Memory) return to baseline levels. The application remains fully responsive, allowing subsequent simple actions (like viewing dashboard stats or creating a single new tenant) without performance degradation or errors.",
+    "category": "data_validation",
+    "priority": "medium",
+    "tags": [
+      "stability",
+      "resource_leak",
+      "post_load_test",
+      "recovery"
+    ],
+    "created_at": "2026-06-12T09:39:57.938546",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "132138db-b9e7-4d47-8f92-3b0c2c57e69c",
+    "title": "Attempt mass tenant creation with invalid input validation (Boundary Test)",
+    "description": "Validates that the system correctly handles and rejects tenants created using inputs that violate defined field constraints (e.g., special characters, excessive length).",
+    "preconditions": [
+      "The application is running at http://localhost:8080.",
+      "User 'superdev@techcanopy.com' credentials are valid."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using the URL http://localhost:8080/login.",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com'.",
+      "Step 3: Fill the password field with 'SuperDev@123'.",
+      "Step 4: Click the login button to authenticate as superdev.",
+      "Step 5: Navigate to the tenant provisioning page (http://localhost:8080/dev).",
+      "Step 6: Attempt to create a batch of tenants, including at least one with an excessively long name (> max length) and one containing forbidden special characters (e.g., 'Tenant!@#$%^').",
+      "Step 7: Verify that the system rejects the invalid entries and provides clear, actionable error messages for each violation."
+    ],
+    "expected_result": "The bulk creation process fails gracefully when encountering invalid inputs. The application displays specific validation errors (e.g., 'Tenant name exceeds character limit' or 'Invalid characters detected') without crashing, and all valid tenants are still created.",
+    "category": "data_validation",
+    "priority": "high",
+    "tags": [
+      "validation",
+      "boundary",
+      "special_chars",
+      "input_testing"
+    ],
+    "created_at": "2026-06-12T09:39:57.938029",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "430b56e9-ad9c-4165-85a2-4d39e4588717",
+    "title": "Stress test creation of 20 valid tenants and monitor system resources",
+    "description": "Validates the system's stability and monitors CPU/application status while simultaneously provisioning a large number of tenants.",
+    "preconditions": [
+      "The application is running at http://localhost:8080.",
+      "User 'superdev@techcanopy.com' credentials are valid."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using the URL http://localhost:8080/login.",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com'.",
+      "Step 3: Fill the password field with 'SuperDev@123'.",
+      "Step 4: Click the login button to authenticate as superdev.",
+      "Step 5: Click the 'Provision New Tenant' link or button (leading to http://localhost:8080/dev).",
+      "Step 6: Initiate a bulk creation process for 20 unique, valid test tenants.",
+      "Step 7: Monitor and record the CPU usage and application status metrics throughout the entire 20-tenant provisioning cycle."
+    ],
+    "expected_result": "All 20 tenants are successfully created without critical errors. The system's CPU utilization remains within acceptable operational limits (e.g., below 85%), and the application does not crash or become unresponsive during the process.",
+    "category": "data_validation",
+    "priority": "high",
+    "tags": [
+      "stress_test",
+      "performance",
+      "tenant_creation",
+      "system_monitoring"
+    ],
+    "created_at": "2026-06-12T09:39:57.936990",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "54c89e34-fda0-4da1-a754-1c18dc075c06",
+    "title": "Resource Utilization Check During Bulk Tenant Provisioning",
+    "description": "Focuses purely on measuring the application's resource consumption (CPU/Memory) while executing a large batch of 20 tenant creations.",
+    "preconditions": [
+      "The application service is running at http://localhost:8080.",
+      "User 'superdev@techcanopy.com' has superuser privileges."
+    ],
+    "steps": [
+      "Step 1: Navigate to http://localhost:8080/login",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com'",
+      "Step 3: Fill the password field with 'SuperDev@123'",
+      "Step 4: Click the Login button to authenticate.",
+      "Step 5: Navigate to http://localhost:8080/dev",
+      "Step 6: Start monitoring system resource metrics (CPU, Memory) via external tooling (e.g., JMX or OS tools).",
+      "Step 7: Execute the bulk creation of 20 tenants.",
+      "Step 8: Stop monitoring and assert that the average CPU usage during the operation does not exceed predefined performance thresholds."
+    ],
+    "expected_result": "The application's resource utilization (CPU/Memory) remains within acceptable operational limits throughout the entire process, indicating scalability.",
+    "category": "performance",
+    "priority": "high",
+    "tags": [
+      "resource monitoring",
+      "large datasets",
+      "bulk"
+    ],
+    "created_at": "2026-06-12T09:38:52.124546",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "f918eafe-c4bb-43b9-871f-73de6b07b9f7",
+    "title": "Stress Test: 20 Simultaneous Tenant Creations with Timeout Validation",
+    "description": "Performs a high-stress test by attempting to create 20 tenants concurrently and validates that the system handles potential resource exhaustion or timeouts gracefully.",
+    "preconditions": [
+      "The application service is running at http://localhost:8080.",
+      "User 'superdev@techcanopy.com' has superuser privileges."
+    ],
+    "steps": [
+      "Step 1: Navigate to http://localhost:8080/login",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com'",
+      "Step 3: Fill the password field with 'SuperDev@123'",
+      "Step 4: Click the Login button to authenticate.",
+      "Step 5: Navigate to http://localhost:8080/dev",
+      "Step 6: Trigger the creation of 20 tenants in a highly concurrent manner (e.g., using parallel API calls).",
+      "Step 7: Wait for all provisioning tasks to complete or time out.",
+      "Step 8: Assert that if any tenant fails to provision, the system returns a clear and actionable error message instead of crashing."
+    ],
+    "expected_result": "The system either successfully provisions all 20 tenants within an acceptable timeframe OR it gracefully handles failures for some tenants without service interruption.",
+    "category": "performance",
+    "priority": "high",
+    "tags": [
+      "stress testing",
+      "timeout",
+      "concurrency"
+    ],
+    "created_at": "2026-06-12T09:38:52.124079",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "2802311c-717d-4c6f-8e1a-2b54f2fb4dd1",
+    "title": "Concurrent Creation of 20 Tenants and Monitoring System Stability",
+    "description": "Validates that the system can successfully provision 20 tenants concurrently without crashing, while monitoring application resource usage (CPU/Memory).",
+    "preconditions": [
+      "The application service is running at http://localhost:8080.",
+      "User 'superdev@techcanopy.com' has superuser privileges."
+    ],
+    "steps": [
+      "Step 1: Navigate to http://localhost:8080/login",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com'",
+      "Step 3: Fill the password field with 'SuperDev@123'",
+      "Step 4: Click the Login button to authenticate.",
+      "Step 5: Navigate to http://localhost:8080/dev",
+      "Step 6: Initiate a bulk provisioning action (e.g., calling an API endpoint or clicking a 'Provision Multiple' button) designed to create 20 tenants simultaneously.",
+      "Step 7: Monitor the system metrics dashboard and assert that CPU usage remains below X% threshold during the entire 20-tenant creation process."
+    ],
+    "expected_result": "All 20 tenants are successfully created, and the application remains stable with acceptable resource utilization throughout the operation.",
+    "category": "performance",
+    "priority": "high",
+    "tags": [
+      "bulk",
+      "concurrency",
+      "load testing"
+    ],
+    "created_at": "2026-06-12T09:38:52.123226",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "9c72416c-a160-4871-939c-f81bd8dd35c1",
+    "title": "Superuser Access Required for Bulk Tenant Provisioning",
+    "description": "Validates that only a superuser role can initiate the bulk creation of tenants, preventing unauthorized resource consumption or data manipulation.",
+    "preconditions": [
+      "The application is running at http://localhost:8080/login.",
+      "A standard user account (e.g., 'standarduser@techcanopy.com') exists."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using 'http://localhost:8080/login'.",
+      "Step 2: Log in using standard user credentials (e.g., standarduser@techcanopy.com).",
+      "Step 3: Attempt to navigate directly to the tenant provisioning URL ('http://localhost:8080/dev').",
+      "Step 4: Attempt to initiate the bulk creation of 20 tenants from the current user context.",
+      "Step 5: Assert that access is denied or an authorization error message is displayed upon attempting Steps 3 and 4.",
+      "Step 6: Log out of the standard user account."
+    ],
+    "expected_result": "The system must restrict bulk tenant creation functionality to users with 'superdev' privileges, displaying a clear 'Access Denied' or 'Insufficient Permissions' message for standard users.",
+    "category": "auth bypass",
+    "priority": "high",
+    "tags": [
+      "authorization",
+      "security",
+      "role check"
+    ],
+    "created_at": "2026-06-12T09:37:50.123038",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "5f985d05-94a6-4c89-a402-a41823c8bef5",
+    "title": "Resource Monitoring Verification After High-Volume Tenant Creation",
+    "description": "Validates that the system returns to a stable, normal operational state (CPU usage) immediately after completing a high-volume tenant creation task.",
+    "preconditions": [
+      "The application is running at http://localhost:8080.",
+      "Superuser credentials are valid."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using 'http://localhost:8080/login'.",
+      "Step 2: Log in using 'superdev@techcanopy.com' and 'SuperDev@123'.",
+      "Step 3: Proceed to the tenant provisioning interface ('http://localhost:8080/dev').",
+      "Step 4: Execute the bulk creation of 20 tenants, monitoring system resources.",
+      "Step 5: Wait for all 20 tenants to be successfully provisioned and confirmed in the UI.",
+      "Step 6: Monitor and record the CPU usage and system status metrics for a period of 5 minutes *after* the last tenant creation is complete.",
+      "Step 7: Assert that the resource utilization (CPU/Memory) returns to baseline levels, indicating no memory leaks or persistent performance degradation."
+    ],
+    "expected_result": "The application's CPU and system resources should stabilize quickly after the bulk operation, confirming efficient resource management.",
+    "category": "performance",
+    "priority": "high",
+    "tags": [
+      "stress test",
+      "stability",
+      "resource monitoring"
+    ],
+    "created_at": "2026-06-12T09:37:50.122574",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "cf45ee3c-2562-486b-bf40-dd6cf58347a5",
+    "title": "Stress Test: Bulk Creation of 20 Tenants from Superuser Role",
+    "description": "Validates the system's stability and monitors resource consumption (CPU/Memory) while creating a large volume of tenants (20) using the superdev account.",
+    "preconditions": [
+      "The application is running at http://localhost:8080.",
+      "A superuser account ('superdev@techcanopy.com') with necessary permissions exists."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using 'http://localhost:8080/login'.",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com'.",
+      "Step 3: Fill the password field with 'SuperDev@123'.",
+      "Step 4: Click the Login button.",
+      "Step 5: Navigate to the tenant provisioning page by clicking the link or navigating to 'http://localhost:8080/dev'.",
+      "Step 6: Initiate a bulk creation process for 20 new tenants (e.g., via an API call or dedicated batch button).",
+      "Step 7: Monitor and record the CPU usage and system status metrics of the application server during the entire 20-tenant creation process.",
+      "Step 8: Assert that all 20 tenants are successfully created and listed in the tenant management dashboard."
+    ],
+    "expected_result": "The system should complete the creation of 20 tenants without crashing, maintaining acceptable CPU usage levels (below defined threshold), and providing a confirmation message for all successful creations.",
+    "category": "data exposure",
+    "priority": "high",
+    "tags": [
+      "performance",
+      "stress test",
+      "superuser",
+      "tenancy"
+    ],
+    "created_at": "2026-06-12T09:37:50.120877",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "42d727da-00d4-4fb6-aee8-194b167f0d43",
+    "title": "Simulate system failure during bulk tenant creation (Concurrency limit)",
+    "description": "Validates the application's graceful error handling when attempting to exceed defined resource limits or API quotas while provisioning tenants.",
+    "preconditions": [
+      "User is logged in as superdev and navigated to http://localhost:8080/dev."
+    ],
+    "steps": [
+      "Step 1: Navigate to http://localhost:8080/dev",
+      "Step 2: Initiate the bulk provisioning process for 20 tenants.",
+      "Step 3: Simulate a backend failure (e.g., API returns HTTP 500 or 'Rate Limit Exceeded').",
+      "Step 4: Monitor the UI and system logs for error handling feedback.",
+      "Step 5: Assert that the process fails gracefully, reports the specific limit/error code, and does not crash the application."
+    ],
+    "expected_result": "The system catches the backend failure, displays a user-friendly message (e.g., 'Provisioning failed due to rate limits. Please try again later.'), and maintains stability.",
+    "category": "negative",
+    "priority": "medium",
+    "tags": [
+      "error_handling",
+      "stress_test",
+      "system_limit"
+    ],
+    "created_at": "2026-06-12T09:36:47.146805",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "e0f89f86-ab38-4ffc-8658-22038c44f35c",
+    "title": "Unauthorized user attempts bulk tenant creation",
+    "description": "Validates that a user lacking 'superdev' privileges is blocked from accessing or executing the bulk provisioning feature.",
+    "preconditions": [
+      "A test user with limited permissions (e.g., standard_user) exists."
+    ],
+    "steps": [
+      "Step 1: Navigate to http://localhost:8080/login",
+      "Step 2: Fill the Username field with 'standard_user@techcanopy.com'",
+      "Step 3: Fill the Password field with 'Password123'",
+      "Step 4: Click the Login button.",
+      "Step 5: Attempt to navigate directly or click the link leading to http://localhost:8080/dev",
+      "Step 6: Assert that an Authorization error (HTTP 403 Forbidden) is returned, or the feature is hidden/disabled."
+    ],
+    "expected_result": "The user is denied access to the tenant provisioning functionality due to insufficient role permissions.",
+    "category": "negative",
+    "priority": "high",
+    "tags": [
+      "authorization",
+      "permissions",
+      "access_control"
+    ],
+    "created_at": "2026-06-12T09:36:47.146432",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "dede7020-394f-45cf-8253-68a408eae584",
+    "title": "Attempt to provision tenant with missing required field",
+    "description": "Validates that the system rejects the creation of a new tenant if mandatory fields (like Tenant Name) are left blank.",
+    "preconditions": [
+      "User is logged in as superdev and navigated to http://localhost:8080/dev."
+    ],
+    "steps": [
+      "Step 1: Navigate to http://localhost:8080/dev",
+      "Step 2: Click the 'Provision New Tenant' button.",
+      "Step 3: Fill the required field (e.g., Tenant Name) with an empty string or leave it blank.",
+      "Step 4: Attempt to submit the form/provision the tenant.",
+      "Step 5: Assert that a validation error message appears next to the missing field, preventing submission."
+    ],
+    "expected_result": "The system displays client-side validation feedback indicating that the Tenant Name is required and cannot be empty.",
+    "category": "negative",
+    "priority": "high",
+    "tags": [
+      "input_validation",
+      "tenant_creation",
+      "missing_field"
+    ],
+    "created_at": "2026-06-12T09:36:47.145940",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "c2ce7cf5-33f7-4989-badc-4acbf6e71864",
+    "title": "Login with invalid credentials",
+    "description": "Validates that the system prevents access and displays an appropriate error message when using incorrect username or password.",
+    "preconditions": [
+      "The application is running at http://localhost:8080/login."
+    ],
+    "steps": [
+      "Step 1: Navigate to http://localhost:8080/login",
+      "Step 2: Fill the Username field with 'invaliduser@test.com'",
+      "Step 3: Fill the Password field with 'WrongPassword'",
+      "Step 4: Click the Login button",
+      "Step 5: Assert that an error message containing 'Invalid credentials' or similar text is displayed on the screen."
+    ],
+    "expected_result": "The user remains logged out, and a clear, actionable error message detailing the login failure is presented.",
+    "category": "negative",
+    "priority": "high",
+    "tags": [
+      "login",
+      "authentication",
+      "invalid_input"
+    ],
+    "created_at": "2026-06-12T09:36:47.144022",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "afd0be97-238d-4c02-9594-d97122b6cf4c",
+    "title": "Stress Test: Overloading the System with Excessive Tenant Creation (e.g., 50 Tenants)",
+    "description": "Tests system resilience and graceful degradation by attempting to create a number of tenants significantly exceeding the required load (20), verifying error handling and resource monitoring under extreme stress.",
+    "preconditions": [
+      "The application is running at http://localhost:8080.",
+      "Superdev user credentials are valid."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using 'http://localhost:8080/login'.",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com' and click the appropriate input.",
+      "Step 3: Fill the password field with 'SuperDev@123' and click the Login button.",
+      "Step 4: Click the link or button labeled 'provision new tenant' to navigate to http://localhost:8080/dev.",
+      "Step 5: Attempt to initiate the bulk creation process for an excessive number of tenants (e.g., 50).",
+      "Step 6: Monitor and record CPU usage, memory consumption, and application status metrics throughout the entire high-stress provisioning attempt.",
+      "Step 7: Assert that the system handles the overload gracefully, providing appropriate error messages or throttling mechanisms without crashing."
+    ],
+    "expected_result": "The system should detect resource limits or invalid bulk requests, provide clear error feedback (e.g., 'Maximum tenants per batch reached'), and maintain operational stability metrics.",
+    "category": "edge_case",
+    "priority": "high",
+    "tags": [
+      "stress_test",
+      "overload",
+      "error_handling",
+      "capacity"
+    ],
+    "created_at": "2026-06-12T09:35:43.284505",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "044c7c97-9c3e-45b2-b83a-ec4ab5eb18a2",
+    "title": "Boundary Test: Minimum Load Check (1 Tenant) and Resource Baseline Establishment",
+    "description": "Validates the system's resource consumption baseline by creating the minimum required number of tenants (1), ensuring stability before scaling up.",
+    "preconditions": [
+      "The application is running at http://localhost:8080.",
+      "Superdev user credentials are valid."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using 'http://localhost:8080/login'.",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com' and click the appropriate input.",
+      "Step 3: Fill the password field with 'SuperDev@123' and click the Login button.",
+      "Step 4: Click the link or button labeled 'provision new tenant' to navigate to http://localhost:8080/dev.",
+      "Step 5: Initiate the creation of a single (1) test tenant.",
+      "Step 6: Monitor and record the CPU usage and application status metrics during this minimal provisioning cycle.",
+      "Step 7: Assert that the single tenant is successfully created, confirming baseline resource consumption."
+    ],
+    "expected_result": "The system should handle the creation of a single tenant efficiently, establishing a low-resource baseline measurement for comparison against high load tests.",
+    "category": "edge_case",
+    "priority": "medium",
+    "tags": [
+      "boundary",
+      "baseline",
+      "single_tenant"
+    ],
+    "created_at": "2026-06-12T09:35:43.283827",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "55fbcbff-3690-476b-a683-9cb8e14e08d0",
+    "title": "High Load Test: Successful Creation of 20 Tenants and Resource Monitoring",
+    "description": "Validates system stability and monitors CPU/resource usage when successfully provisioning a large, specified number (20) of tenants concurrently.",
+    "preconditions": [
+      "The application is running at http://localhost:8080.",
+      "Superdev user credentials are valid."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using 'http://localhost:8080/login'.",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com' and click the appropriate input.",
+      "Step 3: Fill the password field with 'SuperDev@123' and click the Login button.",
+      "Step 4: Click the link or button labeled 'provision new tenant' to navigate to http://localhost:8080/dev.",
+      "Step 5: Initiate the bulk creation process for exactly 20 test tenants (e.g., via an API call or dedicated batch UI).",
+      "Step 6: Monitor and record the CPU usage and application status metrics throughout the entire 20-tenant provisioning cycle.",
+      "Step 7: Assert that all 20 tenants are successfully created and marked as active."
+    ],
+    "expected_result": "The system should complete the creation of 20 tenants without crashing, and resource usage (CPU/Memory) should remain within acceptable operational thresholds throughout the process.",
+    "category": "edge_case",
+    "priority": "high",
+    "tags": [
+      "load_testing",
+      "performance",
+      "superdev",
+      "20_tenants"
+    ],
+    "created_at": "2026-06-12T09:35:43.281644",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "09319423-e560-476a-8cbb-4cdbf685c160",
+    "title": "End-to-end flow: Login, bulk creation, and successful logout",
+    "description": "Validates the entire end-to-end lifecycle: login -> perform high load operation (20 tenants) -> verify status -> log out cleanly.",
+    "preconditions": [
+      "User is not logged in.",
+      "The application is stable."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using the URL http://localhost:8080/login.",
+      "Step 2: Log in with 'superdev@techcanopy.com' and 'SuperDev@123'.",
+      "Step 3: Execute the bulk creation of 20 tenants (as per previous tests).",
+      "Step 4: Click the Logout button/link, and assert successful redirection to the public landing page or login screen."
+    ],
+    "expected_result": "The user is logged out successfully, all 20 tenants are created, and the system remains functional after logging out.",
+    "category": "happy_path",
+    "priority": "medium",
+    "tags": [
+      "e2e",
+      "logout",
+      "full_cycle",
+      "superdev"
+    ],
+    "created_at": "2026-06-12T09:34:30.444785",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "3d6d1a38-978b-4b12-b5f5-9afd168f645d",
+    "title": "Verify system stability and resource monitoring during high load tenant creation",
+    "description": "Specifically validates the required outcome: confirming that the application status remains stable and resources are managed correctly when provisioning 20 tenants simultaneously.",
+    "preconditions": [
+      "User is logged in as superdev.",
+      "Monitoring tools (e.g., JMX, Prometheus) are connected to the backend service."
+    ],
+    "steps": [
+      "Step 1: Navigate to the tenant provisioning interface (http://localhost:8080/dev).",
+      "Step 2: Trigger the simultaneous creation of 20 tenants.",
+      "Step 3: Assert that a real-time dashboard or log output confirms 'Provisioning Started' for all 20 instances.",
+      "Step 4: After completion, assert that the application status message is 'Operational' and no critical errors are logged during the process."
+    ],
+    "expected_result": "The system successfully handles the load of 20 concurrent creations. The resource monitoring output confirms stable CPU usage and a final 'Success' status for all tenants.",
+    "category": "happy_path",
+    "priority": "high",
+    "tags": [
+      "performance",
+      "stability",
+      "resource_check",
+      "superdev"
+    ],
+    "created_at": "2026-06-12T09:34:30.444292",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "374a7bef-fe27-43b5-ad22-c96d9a850a13",
+    "title": "Stress test: Bulk creation of 20 tenants and status verification",
+    "description": "Validates the system's ability to handle simultaneous provisioning of 20 tenants without failure, while monitoring application performance.",
+    "preconditions": [
+      "User is logged in as superdev.",
+      "The 'provision new tenant' feature is accessible."
+    ],
+    "steps": [
+      "Step 1: Navigate to the tenant provisioning interface (http://localhost:8080/dev).",
+      "Step 2: Initiate a bulk creation process for 20 unique test tenants.",
+      "Step 3: Monitor and record the application's CPU usage or system status metrics throughout the entire 20-tenant creation cycle.",
+      "Step 4: Assert that all 20 tenant creations complete successfully, resulting in 20 active tenant records."
+    ],
+    "expected_result": "All 20 tenants are created and marked as active. The application's CPU usage remains within acceptable operational limits (e.g., below 85%) throughout the process.",
+    "category": "happy_path",
+    "priority": "high",
+    "tags": [
+      "stress_test",
+      "performance",
+      "bulk_create",
+      "cpu_monitoring"
+    ],
+    "created_at": "2026-06-12T09:34:30.443456",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  },
+  {
+    "id": "215fbb4c-b637-486a-9dc7-6bf6d1efec96",
+    "title": "Verify superdev login and single tenant creation success",
+    "description": "Validates the standard happy path: logging in with superdev credentials and successfully provisioning one new test tenant.",
+    "preconditions": [
+      "The application is running at http://localhost:8080/",
+      "Superdev user account exists."
+    ],
+    "steps": [
+      "Step 1: Navigate to the login page using the URL http://localhost:8080/login.",
+      "Step 2: Fill the username field with 'superdev@techcanopy.com'.",
+      "Step 3: Fill the password field with 'SuperDev@123'.",
+      "Step 4: Click the Login button to authenticate.",
+      "Step 5: On the main dashboard, click the link or button labeled 'provision new tenant' (or navigate directly to http://localhost:8080/dev).",
+      "Step 6: Fill the required fields for a new tenant (e.g., Tenant Name) and initiate creation."
+    ],
+    "expected_result": "The system successfully creates the single test tenant, and the user is redirected to the newly provisioned tenant dashboard.",
+    "category": "happy_path",
+    "priority": "high",
+    "tags": [
+      "login",
+      "tenant_creation",
+      "superdev",
+      "smoke"
+    ],
+    "created_at": "2026-06-12T09:34:30.439579",
+    "requirement": "Login as superdev and create a new tenant and create 20 test tenants and give the result of lead Give result of what's the cpu usage or the status of the app when 20 tenants are being created simultaneously, The new tenant can be created with http://localhost:8080/dev clicking on provision new tenant",
+    "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8080/login ",
+    "username": "superdev@techcanopy.com",
+    "password": "SuperDev@123",
+    "test_type": "web"
+  }
+]
