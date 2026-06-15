@@ -22,8 +22,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": null,
-    "username": null,
-    "password": null,
     "test_type": "web"
   },
   {
@@ -50,8 +48,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": null,
-    "username": null,
-    "password": null,
     "test_type": "web"
   },
   {
@@ -77,8 +73,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": null,
-    "username": null,
-    "password": null,
     "test_type": "web"
   },
   {
@@ -112,8 +106,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -148,8 +140,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -185,8 +175,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -222,8 +210,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -258,8 +244,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -293,8 +277,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -328,8 +310,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -363,8 +343,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -398,8 +376,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -432,8 +408,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -465,8 +439,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -499,8 +471,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -535,8 +505,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -566,8 +534,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -598,8 +564,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -629,8 +593,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -660,8 +622,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -695,8 +655,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -729,8 +687,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -764,8 +720,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -796,8 +750,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -828,8 +780,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -860,8 +810,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   },
   {
@@ -894,8 +842,6 @@
     "session_id": "83fb4738-2945-4d05-a25f-25b091e4077e",
     "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
     "target_url": "http://localhost:8080/login ",
-    "username": "superdev@techcanopy.com",
-    "password": "SuperDev@123",
     "test_type": "web"
   }
 ]
