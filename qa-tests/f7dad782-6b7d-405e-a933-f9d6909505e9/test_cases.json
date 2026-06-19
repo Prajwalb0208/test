@@ -1,0 +1,649 @@
+[
+  {
+    "id": "7262b106-248b-4d06-a361-6c25db765590",
+    "title": "Handling of Empty Log Set Retrieval",
+    "description": "Verify that the API gracefully handles requests for log data within a time range where no events have occurred, ensuring proper structure and status code.",
+    "preconditions": [
+      "A specific date range is defined (e.g., 2099-12-31 to 2100-01-01) known to contain zero audit entries."
+    ],
+    "steps": [
+      "1. Send GET request to /audit/logs specifying the empty time range.",
+      "2. Verify the response status code is 200 OK.",
+      "3. Validate that the response body contains an empty array or a specific 'no records found' message, without throwing an error."
+    ],
+    "expected_result": "The API returns a successful 200 OK status code with a structured payload indicating zero results (e.g., {'logs': [], 'count': 0}). No server errors should occur.",
+    "category": "error_handling",
+    "priority": "Medium",
+    "tags": [
+      "audit",
+      "logs",
+      "edge case",
+      "empty data"
+    ],
+    "created_at": "2026-06-19T09:28:57.977950",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /audit/logs",
+      "/system/health"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "7b028645-e0d4-4f3f-9ac7-2cde5ddc3c34",
+    "title": "Unauthorized Access Attempt on Audit Logs Endpoint",
+    "description": "Validate that only users with 'Administrator' or specific 'Audit Viewer' roles can access the audit logs endpoint. Attempts by unauthenticated or low-privilege users must be rejected.",
+    "preconditions": [
+      "A user account with insufficient permissions (e.g., standard user) exists."
+    ],
+    "steps": [
+      "1. Attempt GET request to /audit/logs using an unauthenticated token.",
+      "2. Repeat step 1 using a valid token belonging to a non-admin, low-privilege role."
+    ],
+    "expected_result": "The API must return a 403 Forbidden status code for all unauthorized attempts, and the response body should clearly indicate insufficient permissions.",
+    "category": "security",
+    "priority": "Critical",
+    "tags": [
+      "rbac",
+      "authorization",
+      "access control"
+    ],
+    "created_at": "2026-06-19T09:28:57.976236",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /audit/logs",
+      "/api/v1/primary_resource"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "b628a3b6-fd81-4ec0-8672-1bd88ff0d077",
+    "title": "Verify Global Security Headers and Rate Limiting Enforcement",
+    "description": "This test validates that the API enforces necessary security headers (CORS, HSTS) and correctly implements rate limiting mechanisms across all endpoints.",
+    "preconditions": [
+      "The API service must be running at http://localhost:8000/docs",
+      "A valid client IP address is used for testing."
+    ],
+    "steps": [
+      "Step 1: Send GET /status with no body and header Accept: application/json (Initial request)",
+      "Step 2: Assert status code 200",
+      "Step 3: Verify response headers include 'Access-Control-Allow-Origin:*' or specific allowed origins.",
+      "Step 4: Send GET /users with no body and header Accept: application/json (Repeated request)",
+      "Step 5: Assert status code 429 Too Many Requests after exceeding the defined rate limit threshold.",
+      "Step 6: Verify response headers include 'X-RateLimit-Remaining' and 'Retry-After'."
+    ],
+    "expected_result": "The API returns correct security CORS headers, enforces rate limiting (HTTP 429), and provides necessary header information for client handling.",
+    "category": "security",
+    "priority": "high",
+    "tags": [
+      "api",
+      "cors",
+      "rate_limiting",
+      "headers"
+    ],
+    "created_at": "2026-06-19T09:07:13.590306",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /status",
+      "GET /users",
+      "POST /products",
+      "DELETE /items/{itemId}"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "b43ad79a-ea50-4935-930e-d3d1e0f00019",
+    "title": "Validate API Surface for Injection Vulnerabilities Across All Endpoints",
+    "description": "This test systematically checks common endpoints for injection vulnerabilities by passing malicious payloads (e.g., SQL, XSS) in parameters and bodies, ensuring proper sanitization.",
+    "preconditions": [
+      "The API service must be running at http://localhost:8000/docs",
+      "A set of valid test credentials (if applicable) are available."
+    ],
+    "steps": [
+      "Step 1: Send GET /users?q=<script>alert(1)</script> with no body and header Accept: application/json",
+      "Step 2: Assert status code 200 or 400 (indicating rejection of malicious input)",
+      "Step 3: Verify response does not execute scripts or return database errors.",
+      "Step 4: Send POST /products with body {\"name\": \"Test Product\", \"description\": \"<script>alert(1)</script>\"} and header Content-Type: application/json",
+      "Step 5: Assert status code 201 (or appropriate success code)",
+      "Step 6: Verify response payload sanitizes the malicious input in the 'description' field."
+    ],
+    "expected_result": "All endpoints successfully reject or sanitize common injection payloads, preventing unauthorized data access or execution.",
+    "category": "security",
+    "priority": "high",
+    "tags": [
+      "api",
+      "injection",
+      "validation"
+    ],
+    "created_at": "2026-06-19T09:07:13.589706",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /users",
+      "POST /products",
+      "GET /search",
+      "DELETE /items/{itemId}"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "f2afe036-021b-493c-a4be-5e0b10ab541d",
+    "title": "Stress Test: Concurrent Endpoint Health Check Validation",
+    "description": "Simulates concurrent requests to validate the health and availability of multiple endpoints simultaneously, ensuring no service degradation or rate limiting issues.",
+    "preconditions": [
+      "The API service must be running at http://localhost:8000/docs",
+      "Concurrency testing tool (e.g., JMeter, Locust) is configured."
+    ],
+    "steps": [
+      "Step 1: Send concurrent GET requests to a defined list of core endpoints (e.g., /users, /products, /status).",
+      "Step 2: Assert that all simultaneous requests receive status code 200 within the specified concurrency window.",
+      "Step 3: Monitor response time variance across all concurrent calls; standard deviation must be low.",
+      "Step 4: Verify that no endpoint returns a 'lose ends' or internal server error (5xx) under load."
+    ],
+    "expected_result": "All targeted endpoints remain highly available and responsive when subjected to high concurrency, confirming system stability.",
+    "category": "performance",
+    "priority": "high",
+    "tags": [
+      "api",
+      "concurrency",
+      "stress test",
+      "availability"
+    ],
+    "created_at": "2026-06-19T09:06:21.787585",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /docs/endpoints",
+      "GET /users",
+      "GET /products",
+      "GET /status"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "cdf1cf75-3922-4a66-a1ad-552538c5d484",
+    "title": "Performance Test: Comprehensive Endpoint Discovery and Validation",
+    "description": "Validates that retrieving a complete list of endpoints (discovery) is fast, handles large payloads efficiently, and confirms no endpoint definitions are duplicated or incomplete.",
+    "preconditions": [
+      "The API service must be running at http://localhost:8000/docs",
+      "A sufficient volume of mock endpoints must be available for testing payload size."
+    ],
+    "steps": [
+      "Step 1: Send GET http://localhost:8000/docs/endpoints?include_details=true",
+      "Step 2: Assert status code 200",
+      "Step 3: Verify response time is less than 500ms (Performance Threshold)",
+      "Step 4: Verify the response payload size is within acceptable limits (e.g., < 1MB for initial discovery).",
+      "Step 5: Assert that all returned endpoint definitions are unique and do not contain 'lose ends' (i.e., all required parameters/paths are defined)."
+    ],
+    "expected_result": "The API successfully returns a comprehensive, non-redundant list of endpoints within acceptable performance thresholds.",
+    "category": "performance",
+    "priority": "high",
+    "tags": [
+      "api",
+      "discovery",
+      "performance",
+      "large payload"
+    ],
+    "created_at": "2026-06-19T09:06:21.786891",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /docs/endpoints"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "5799c220-34c3-4615-86aa-b275453de760",
+    "title": "Validate API behavior for 404 Not Found or Timeout conditions",
+    "description": "Tests endpoint resilience by simulating a non-existent path (404) and testing connection timeouts.",
+    "preconditions": [
+      "A non-existent endpoint is targeted, or the service is configured to delay response beyond the client timeout threshold."
+    ],
+    "steps": [
+      "Step 1: Send GET http://localhost:8000/docs/non_existent_endpoint",
+      "Step 2: Assert status code 404 (for non-existent endpoint)",
+      "Step 3: Simulate sending a request to an unreachable service and assert connection timeout error."
+    ],
+    "expected_result": "For 404, the response body should contain a user-friendly 'Not Found' message. For timeout, the client should throw a specific TimeoutException.",
+    "category": "error_handling",
+    "priority": "high",
+    "tags": [
+      "api",
+      "404",
+      "timeout"
+    ],
+    "created_at": "2026-06-19T09:05:37.889401",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /docs",
+      "GET /users",
+      "GET /items"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "79882b8b-3cc1-4d43-8efb-553060e09593",
+    "title": "Validate API response when content-type header is incorrect",
+    "description": "Tests that the client correctly identifies and handles responses with an unexpected Content-Type (e.g., receiving plain text instead of application/json).",
+    "preconditions": [
+      "The target endpoint is configured to return a non-JSON MIME type (e.g., text/html) even when expecting JSON."
+    ],
+    "steps": [
+      "Step 1: Send GET http://localhost:8000/docs/items",
+      "Step 2: Assert status code 200",
+      "Step 3: Verify the response header 'Content-Type' is not 'application/json'."
+    ],
+    "expected_result": "The client should log a Content-Type mismatch warning and attempt to parse the data based on the actual type, or fail gracefully if parsing fails.",
+    "category": "error_handling",
+    "priority": "high",
+    "tags": [
+      "api",
+      "content_type",
+      "error_handling"
+    ],
+    "created_at": "2026-06-19T09:05:37.888967",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /docs",
+      "GET /users",
+      "GET /items"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "69e5a73b-7ce6-4c8c-8239-2767a16be934",
+    "title": "Validate API response when server returns malformed JSON",
+    "description": "Tests that the client correctly handles a non-JSON or corrupted payload from the API, ensuring graceful failure.",
+    "preconditions": [
+      "The target endpoint is configured to return invalid JSON data upon error."
+    ],
+    "steps": [
+      "Step 1: Send GET http://localhost:8000/docs/users (Simulating malformed response)",
+      "Step 2: Assert status code 200 (or appropriate failure code like 500, depending on API design)",
+      "Step 3: Verify the response body is not valid JSON format (e.g., contains unescaped characters or structural errors)."
+    ],
+    "expected_result": "The client should catch a JSON parsing error and return a structured failure message rather than crashing.",
+    "category": "error_handling",
+    "priority": "high",
+    "tags": [
+      "api",
+      "malformed_json",
+      "error_handling"
+    ],
+    "created_at": "2026-06-19T09:05:37.888389",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /docs",
+      "GET /users",
+      "GET /items"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "2dfe649a-6feb-478b-8b7b-032857e90db0",
+    "title": "Validate endpoint structure for maximum length constraints on path variables",
+    "description": "Validates that the API correctly enforces defined maximum lengths for path parameters to prevent injection or overly long requests.",
+    "preconditions": [
+      "An endpoint exists (e.g., /items/{item_code}) with a constrained path variable."
+    ],
+    "steps": [
+      "Step 1: Send GET http://localhost:8000/docs/api/v1/items/AAAAAAAAAAAAAAAAA",
+      "Step 2: Assert status code 200 (or appropriate validation error code)",
+      "Step 3: Attempt to send a request with an excessively long path variable (e.g., > max length) and assert 400 Bad Request.",
+      "Step 4: Verify the response body clearly indicates the maximum allowed length for the path segment."
+    ],
+    "expected_result": "The API rejects requests where path variables exceed their defined maximum length, providing clear validation feedback.",
+    "category": "validation",
+    "priority": "medium",
+    "tags": [
+      "api",
+      "path params",
+      "max length"
+    ],
+    "created_at": "2026-06-19T09:04:40.724555",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET http://localhost:8000/docs/api/v1/items/{item_code}"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "1a941d15-b791-486d-8403-4f4a21a75f09",
+    "title": "Validate required query parameters for a hypothetical resource retrieval endpoint",
+    "description": "Tests the schema validation by ensuring that all mandatory query parameters are present and correctly typed for a typical GET request.",
+    "preconditions": [
+      "A functional API endpoint exists (e.g., /users) requiring 'user_id' and 'status'."
+    ],
+    "steps": [
+      "Step 1: Send GET http://localhost:8000/docs/api/v1/users?user_id={required}&status={required}",
+      "Step 2: Assert status code 200 (or appropriate validation error code if missing)",
+      "Step 3: Verify that the 'user_id' parameter is correctly type-checked as an integer.",
+      "Step 4: Test failure case by omitting 'status' query parameter and assert expected 400 Bad Request response."
+    ],
+    "expected_result": "The API successfully validates required parameters, returning a 4xx error when mandatory fields are missing or incorrectly typed.",
+    "category": "validation",
+    "priority": "high",
+    "tags": [
+      "api",
+      "query params",
+      "schema validation"
+    ],
+    "created_at": "2026-06-19T09:04:40.723982",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET http://localhost:8000/docs/api/v1/users"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "87a5e9e5-b789-41a6-80b7-1ab7a627076c",
+    "title": "Validate successful retrieval and non-redundancy of all API endpoints",
+    "description": "Ensures the documentation endpoint successfully lists all defined paths without any duplicates or broken links (lose ends).",
+    "preconditions": [
+      "The API service is running at http://localhost:8000.",
+      "The OpenAPI specification is correctly loaded and accessible via /docs."
+    ],
+    "steps": [
+      "Step 1: Send GET http://localhost:8000/docs",
+      "Step 2: Assert status code 200",
+      "Step 3: Verify response JSON structure contains a list of endpoints (e.g., 'paths' object)",
+      "Step 4: Validate that the count of discovered paths matches the expected number of services defined in the system."
+    ],
+    "expected_result": "The response body successfully lists all available, unique API endpoints and their schemas.",
+    "category": "validation",
+    "priority": "high",
+    "tags": [
+      "api",
+      "documentation",
+      "endpoint discovery"
+    ],
+    "created_at": "2026-06-19T09:04:40.723286",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET http://localhost:8000/docs"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "eb961a65-4325-4027-aa89-7dfc789f47c4",
+    "title": "Check system health and metadata endpoint functionality",
+    "description": "Ensures the dedicated status or discovery endpoint is available and returns expected operational data.",
+    "preconditions": [
+      "The service must be fully operational."
+    ],
+    "steps": [
+      "Send GET http://localhost:8000/docs/status",
+      "Assert status code 200",
+      "Verify response contains field 'service_status' with value 'operational'",
+      "Verify response contains field 'api_version'"
+    ],
+    "expected_result": "The API returns a successful status check object confirming system health.",
+    "category": "system",
+    "priority": "medium",
+    "tags": [
+      "api",
+      "healthcheck",
+      "metadata"
+    ],
+    "created_at": "2026-06-19T09:03:48.585437",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /docs/resources/a?id=123",
+      "GET /docs/resources/b",
+      "GET /docs/status"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "26f65875-4761-4d9c-babf-53b4a0cf69ad",
+    "title": "Validate handling of missing or invalid parameters on a secondary endpoint",
+    "description": "Tests the robustness of an endpoint when required query parameters are omitted or provided with incorrect data types.",
+    "preconditions": [
+      "The service is running and accepts validation errors."
+    ],
+    "steps": [
+      "Send GET http://localhost:8000/docs/resources/b?category=invalid_data",
+      "Assert status code 400 (Bad Request)",
+      "Verify response body contains error message indicating 'Invalid category format'",
+      "Send GET http://localhost:8000/docs/resources/b"
+    ],
+    "expected_result": "The API correctly rejects the request with a 400 status and provides clear validation feedback.",
+    "category": "validation",
+    "priority": "high",
+    "tags": [
+      "api",
+      "negative path",
+      "validation"
+    ],
+    "created_at": "2026-06-19T09:03:48.584658",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /docs/resources/a?id=123",
+      "GET /docs/resources/b?category=invalid_data",
+      "GET /docs/resources/b"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "149f1205-3983-477f-b17d-738f8d8a237d",
+    "title": "Verify successful retrieval of primary resource endpoint",
+    "description": "Validates that a core, expected API endpoint returns status 200 and contains necessary data fields.",
+    "preconditions": [
+      "The service must be running at http://localhost:8000/docs",
+      "A valid record must exist for the primary resource type."
+    ],
+    "steps": [
+      "Send GET http://localhost:8000/docs/resources/a?id=123",
+      "Assert status code 200",
+      "Verify response contains field 'id'",
+      "Verify response contains field 'name'"
+    ],
+    "expected_result": "The API returns a list or object containing the requested resource details.",
+    "category": "functional",
+    "priority": "high",
+    "tags": [
+      "api",
+      "coverage",
+      "happy path"
+    ],
+    "created_at": "2026-06-19T09:03:48.582991",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /docs/resources/a?id=123",
+      "GET /docs/resources/b",
+      "GET /docs/status"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "38145add-168f-49aa-baa7-b91e1ec0ebce",
+    "title": "Test server error when processing invalid data payload",
+    "description": "Validates that the system handles internal failures (e.g., database connection loss) gracefully, returning a 5xx status code.",
+    "preconditions": [
+      "The service must be running at http://localhost:8000/docs."
+    ],
+    "steps": [
+      "Step 1: Send POST http://localhost:8000/docs/api/v1/resource",
+      "Headers: Content-Type: application/json",
+      "Body: {\"data\": \"trigger_server_error\"}",
+      "Step 2: Assert status code 500 Internal Server Error",
+      "Step 3: Verify response body contains a generic error message (e.g., 'Internal Server Error')."
+    ],
+    "expected_result": "The API returns a standard server error response, preventing data leakage and informing the client of system failure.",
+    "category": "status_codes",
+    "priority": "high",
+    "tags": [
+      "api",
+      "error_handling",
+      "5xx"
+    ],
+    "created_at": "2026-06-19T09:02:53.969814",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /docs/api/v1/endpoints",
+      "POST /docs/api/v1/resource"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "018b9cad-14fe-4139-8ed1-fc459ff4de1c",
+    "title": "Test client error when missing required query parameter for endpoint listing",
+    "description": "Validates that the API correctly rejects requests with invalid or missing mandatory parameters, returning a 4xx status code.",
+    "preconditions": [
+      "The service must be running at http://localhost:8000/docs."
+    ],
+    "steps": [
+      "Step 1: Send GET http://localhost:8000/docs/api/v1/endpoints?required_id=null",
+      "Step 2: Assert status code 400 Bad Request",
+      "Step 3: Verify response body contains an error message indicating 'missing required parameter: required_id'."
+    ],
+    "expected_result": "The API returns a structured JSON error response detailing the validation failure.",
+    "category": "status_codes",
+    "priority": "high",
+    "tags": [
+      "api",
+      "validation",
+      "4xx"
+    ],
+    "created_at": "2026-06-19T09:02:53.969330",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /docs/api/v1/endpoints",
+      "POST /docs/api/v1/resource"
+    ],
+    "mobile_spec": null
+  },
+  {
+    "id": "f78101a2-b2a6-484e-a633-cb01681bea2e",
+    "title": "Verify successful retrieval of all defined API endpoints",
+    "description": "Validates that the system can successfully list all existing, non-repeating endpoints and resources using a GET request.",
+    "preconditions": [
+      "The service must be running at http://localhost:8000/docs."
+    ],
+    "steps": [
+      "Step 1: Send GET http://localhost:8000/docs/api/v1/endpoints",
+      "Step 2: Assert status code 200 OK",
+      "Step 3: Verify response content type is application/json",
+      "Step 4: Verify response body contains a list of endpoints and no duplicate paths are present."
+    ],
+    "expected_result": "A JSON array containing all valid, non-repeating API endpoint definitions.",
+    "category": "status_codes",
+    "priority": "high",
+    "tags": [
+      "api",
+      "discovery",
+      "2xx"
+    ],
+    "created_at": "2026-06-19T09:02:53.967596",
+    "requirement": "Get all endpoints and make sure none repeats or has lose ends",
+    "session_id": "f7dad782-6b7d-405e-a933-f9d6909505e9",
+    "tenant_id": "618d402f-d2bc-4ed7-99dd-7ce0019167f4",
+    "target_url": "http://localhost:8000/docs",
+    "username": null,
+    "password": null,
+    "test_type": "api",
+    "endpoints": [
+      "GET /docs/api/v1/endpoints",
+      "POST /docs/api/v1/resource"
+    ],
+    "mobile_spec": null
+  }
+]
